@@ -21,7 +21,7 @@ $this->title = 'Products';
 ?>
 <div class="product-index">
 
-    <div id="content"></div>
+    <div id="content">Loading</div>
     
 </div>
 
@@ -55,7 +55,7 @@ class ProductRow extends React.Component {
                 <td>{this.props.product.price}</td>
                 <td>
                     <a href='#'
-                        className='btn btn-info m-r-1em'> Read One
+                        className='btn btn-info m-r-1em'> View
                     </a>
                     <a href='#'
                         className='btn btn-primary m-r-1em'> Edit
@@ -69,44 +69,41 @@ class ProductRow extends React.Component {
     }
 }
 
+
 class ProductsTable extends React.Component {
 
     constructor(props) {
         super(props);
        
-    //    console.log(this.props.products);
-        this.state = {data: this.props.products};
+        // console.log(this.props.products);
+        this.state = {products: []};
         
     }
 
+    componentWillReceiveProps(nextProps) {
+        // console.log(nextProps.products);
+        this.setState({products: nextProps.products});
+    }
+
     render() {
+        var p = this.state.products;
         // var p = this.props.products;
         // console.log(this.props.products);
-        // return this.props.products;
-        return(this.state.data);
-        /*
-        console.log(this.state.data);
-        var rows = this.state.data.map(function(product, i) {
+        
+        var rows = $.map(p.records,function(product, i) {
             // console.log(i);
             return (
-                <ProductRow
-                    key={i}
-                    product={product}
-                    />
+                <ProductRow key={i} product={product} />
             );
-        }.bind(this));
+        }.bind(this)); 
 
         
-        
- 
         return(
-            !rows.length
-                ? <div className='alert alert-danger'>No products found.</div>
-                :
                 <table className='table table-bordered table-hover'>
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Price</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -115,24 +112,29 @@ class ProductsTable extends React.Component {
                     </tbody>
                 </table>
         );
-        */
+        
         
     }
 }
+
 
 class Main extends React.Component {
   
     constructor(props) {
         super(props);
-        this.state = {products: []};
+        this.state = {
+            products: [],
+            currentMode: 'read',
+            };
     }
     
     componentDidMount() {
 
         this.serverRequest = $.get("<?php echo Yii::$app->homeUrl
-?>/product/all", function (res) {
+?>product/all", function (res) {
             this.setState({
-                products: res,
+                // products: res,
+                products: $.parseJSON(res),
             });
         }.bind(this));
     }
@@ -144,7 +146,7 @@ class Main extends React.Component {
     render() {
             
         var filteredProducts = this.state.products;
-        console.log(filteredProducts);
+        // console.log(filteredProducts);
 
         return (
             <div>
