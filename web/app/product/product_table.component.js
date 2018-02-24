@@ -1,28 +1,38 @@
 // component for the whole products table
-window.ProductsTable = React.createClass({
-    render: function() {
- 
-    var rows = this.props.products
-        .map(function(product, i) {
+class ProductsTable extends React.Component {
+
+    constructor(props) {
+        super(props);
+       
+        // console.log(this.props.products);
+        this.state = {products: []};
+        
+    }
+
+    componentWillReceiveProps(nextProps) {
+        // console.log(nextProps.products);
+        this.setState({products: nextProps.products});
+    }
+
+    render() {
+        var p = this.state.products;
+        // var p = this.props.products;
+        // console.log(this.props.products);
+        
+        var rows = $.map(p.records,function(product, i) {
+            // console.log(i);
             return (
-                <ProductRow
-                    key={i}
-                    product={product}
-                    changeAppMode={this.props.changeAppMode} />
+                <ProductRow key={i} product={product} />
             );
-        }.bind(this));
- 
+        }.bind(this)); 
+
+        
         return(
-            !rows.length
-                ? <div className='alert alert-danger'>No products found.</div>
-                :
                 <table className='table table-bordered table-hover'>
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Description</th>
                             <th>Price</th>
-                            <th>Category</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -31,5 +41,7 @@ window.ProductsTable = React.createClass({
                     </tbody>
                 </table>
         );
+        
+        
     }
-});
+}
