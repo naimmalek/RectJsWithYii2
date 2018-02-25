@@ -4,14 +4,21 @@ class MainApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {currentMode: 'read',productId:null};
+
+        // This binding is necessary to make `this` work in the callback
+        this.changeAppMode = this.changeAppMode.bind(this);
+
     }
  
     // used when use clicks something that changes the current mode
     changeAppMode(newMode, productId){
+        
         this.setState({currentMode: newMode});
-            if(productId !== undefined){
+        
+        if(productId !== undefined){
             this.setState({productId: productId});
         }
+
     }
  
     // render the component based on current or selected mode

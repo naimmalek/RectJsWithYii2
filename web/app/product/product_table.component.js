@@ -7,6 +7,7 @@ class ProductsTable extends React.Component {
         // console.log(this.props.products);
         this.state = {products: []};
         
+        
     }
 
     componentWillReceiveProps(nextProps) {
@@ -22,7 +23,7 @@ class ProductsTable extends React.Component {
         var rows = $.map(p.records,function(product, i) {
             // console.log(i);
             return (
-                <ProductRow key={i} product={product} />
+                <ProductRow key={i} product={product} changeAppMode={this.props.changeAppMode} />
             );
         }.bind(this)); 
 
@@ -32,8 +33,8 @@ class ProductsTable extends React.Component {
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Price</th>
-                            <th>Action</th>
+                            <th>Price($)</th>
+                            <th className='action-column'>Action</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -26,12 +26,13 @@ class ReadProductsComponent extends React.Component {
     render() {
             
         var filteredProducts = this.state.products;
-        console.log(filteredProducts);
-
+        // console.log(filteredProducts);
+        $('.page-header h1').text('Product List');
+        
         return (
-            <div>
-                {/*header*/}
-                {/* <ProductsTable products={filteredProducts}   /> */}
+            <div className='overflow-hidden'>
+                <TopActionsComponent changeAppMode={this.props.changeAppMode} />
+
                 <ProductsTable
                     products={filteredProducts}
                     changeAppMode={this.props.changeAppMode} />

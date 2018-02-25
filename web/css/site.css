@@ -113,3 +113,10 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.text-align-center{ text-align:center; }
+.margin-zero{ margin:0; }
+.overflow-hidden{ overflow:hidden; }
+.margin-bottom-1em{ margin-bottom:1em; }
+.m-r-1em{ margin-right:1em; }
+.action-column{width: 240px;text-align: center}

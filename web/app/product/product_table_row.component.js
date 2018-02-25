@@ -3,7 +3,7 @@ class ProductRow extends React.Component {
 
     constructor(props) {
         super(props);
-    
+        
     }
 
     render() {
@@ -12,11 +12,11 @@ class ProductRow extends React.Component {
                 <td>{this.props.product.name}</td>
                 <td>{this.props.product.price}</td>
                 <td>
-                    <a href='#'
+                    <a href='javascript:void(0);'
                         onClick={() => this.props.changeAppMode('readOne', this.props.product.id)}
                         className='btn btn-info m-r-1em'> View
                     </a>
-                    <a href='#'
+                    <a href='javascript:void(0);'
                         onClick={() => this.props.changeAppMode('update', this.props.product.id)}
                         className='btn btn-primary m-r-1em'> Edit
                     </a>

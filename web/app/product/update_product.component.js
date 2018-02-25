@@ -1,18 +1,37 @@
-class CreateProductComponent extends React.Component {    
-    
 
+class UpdateProductComponent extends React.Component {    
+    
     constructor(props) {
         super(props);
+        
         this.state = {
+            id: 0,
             name: '',
-            price: '',
-            successCreation: null
+            price: 0,
+            successUpdate: null
         };
 
         this.onNameChange = this.onNameChange.bind(this);
         this.onPriceChange = this.onPriceChange.bind(this);
         this.onSave = this.onSave.bind(this);
-        
+    }
+
+    componentDidMount() {
+
+        var productId = this.props.productId;
+        this.serverRequest = $.get("http://localhost/RectJsWithYii2/web/product/view?id="+productId, 
+        function (res) {
+            res = $.parseJSON(res);
+            this.setState({
+                id: res.id,
+                name: res.name,
+                price:res.price,
+            });
+        }.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.serverRequest.abort();
     }
 
     onNameChange(e) {
@@ -21,9 +40,10 @@ class CreateProductComponent extends React.Component {
     onPriceChange(e) {
         this.setState({price: e.target.value});
     }
-     
+
     onSave(e){
  
+        var productId = this.props.productId;
         // data in the form
         var form_data={
             name: this.state.name,
@@ -32,7 +52,7 @@ class CreateProductComponent extends React.Component {
      
         // submit form data to api
         $.ajax({
-            url: "http://localhost/RectJsWithYii2/web/product/create",
+            url: "http://localhost/RectJsWithYii2/web/product/update?id="+productId,
             type : "GET",
             contentType : 'application/json',
             data : form_data,
@@ -41,12 +61,8 @@ class CreateProductComponent extends React.Component {
                 response = $.parseJSON(response);
                 console.log(response);
                 // api message
-                this.setState({successCreation: response['message']});
-                // empty form
-                this.setState({name: ""});
-                this.setState({price: ""});
+                this.setState({successUpdate: response['message']});
                 
-     
             }.bind(this),
             error: function(xhr, resp, text){
                 // show error to console
@@ -65,15 +81,15 @@ class CreateProductComponent extends React.Component {
         <div>
             {
      
-                this.state.successCreation == 1 ?
+                this.state.successUpdate == 1 ?
                     <div className='alert alert-success'>
-                        Product created successfully.
+                        Product updated successfully.
                     </div>
                 : null
             }
             {
      
-                this.state.successCreation == 2 ?
+                this.state.successUpdate == 2 ?
                     <div className='alert alert-danger'>
                         Unable to save product. Please try again.
                     </div>
@@ -127,4 +143,5 @@ class CreateProductComponent extends React.Component {
         </div>
         );
     }
+
 }

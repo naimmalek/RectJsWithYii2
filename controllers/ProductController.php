@@ -50,7 +50,7 @@ class ProductController extends Controller
 
     public function actionAll()
     {
-        $r = Product::find()->where(['is_deleted'=>'N'])->asArray()->all();
+        $r = Product::find()->where(['is_deleted'=>'N'])->orderby('id desc')->asArray()->all();
         $data['records'] = $r;
         return json_encode($data,true);
     }
@@ -63,9 +63,12 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        $data = Product::find()->where(['is_deleted'=>'N'])->andWhere(['id'=>$id])->asArray()->one();
+        return json_encode($data,true);
+
+        /* return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+        ]); */
     }
 
     /**
@@ -74,6 +77,32 @@ class ProductController extends Controller
      * @return mixed
      */
     public function actionCreate()
+    {
+        $model = new Product();
+        if(isset($_REQUEST['name']) && $_REQUEST['name'] != '' && 
+        isset($_REQUEST['price']) && $_REQUEST['price'] != ''
+        ){
+        
+            $model->name = $_REQUEST['name'];
+            $model->price = $_REQUEST['price'];
+            $model->created_by = 1;
+            $model->updated_by = 1;
+            $model->created_date = date('Y-m-d H:i:s');
+            $model->updated_date = date('Y-m-d H:i:s');
+            if($model->save(false)){
+                $data['message'] = 1;
+                echo json_encode($data);
+                exit;
+            }else{
+                $data['message'] = 2;
+                echo json_encode($data);
+                exit;
+            }
+        }
+
+    }
+
+    /* public function actionCreate()
     {
         $model = new Product();
 
@@ -91,7 +120,7 @@ class ProductController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
-    }
+    } */
 
     /**
      * Updates an existing Product model.
@@ -101,6 +130,29 @@ class ProductController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        if($model != array()){
+            $model->name = $_REQUEST['name'];
+            $model->price = $_REQUEST['price'];
+            $model->updated_by = 1;
+            $model->updated_date = date('Y-m-d H:i:s');
+            if($model->save(false)){
+                $data['message'] = 1;
+                echo json_encode($data);
+                exit;
+            }else{
+                $data['message'] = 2;
+                echo json_encode($data);
+                exit;
+            }
+
+        }
+        
+           
+        
+    }
+     /* public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -115,7 +167,7 @@ class ProductController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
+    } */
 
     /**
      * Deletes an existing Product model.
@@ -128,8 +180,14 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
         $model->is_deleted = "Y";
+        $model->save(false);
+        echo 1;exit;
+        
+
+        /* $model = $this->findModel($id);
+        $model->is_deleted = "Y";
         $model->save();
-        return $this->redirect(['index']);
+        return $this->redirect(['index']); */
     }
 
     /**
