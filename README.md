@@ -25,17 +25,9 @@ You can install this project using the following command, run the following comm
 composer update
 ~~~
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
+You can then access the application through the following URL:
 ~~~
 http://localhost/RectJsWithYii2/web/
-~~~
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
 ~~~
 
 
