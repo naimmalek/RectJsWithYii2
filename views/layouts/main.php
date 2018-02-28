@@ -60,6 +60,7 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; Naim <?= date('Y') ?></p>
+        <input type='hidden' id='base_url' value='<?php echo Yii::$app->request->baseUrl;?>'/>
     </div>
 </footer>
 

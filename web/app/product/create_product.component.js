@@ -29,10 +29,10 @@ class CreateProductComponent extends React.Component {
             name: this.state.name,
             price: this.state.price,
         };
-     
+        var base_url = $('#base_url').val();
         // submit form data to api
         $.ajax({
-            url: "http://localhost/RectJsWithYii2/web/product/create",
+            url: base_url+"/product/create",
             type : "GET",
             contentType : 'application/json',
             data : form_data,

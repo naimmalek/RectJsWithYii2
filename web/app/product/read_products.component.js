@@ -10,7 +10,8 @@ class ReadProductsComponent extends React.Component {
     // on mount, fetch all products and stored them as this component's state
     componentDidMount() {
 
-        this.serverRequest = $.get("http://localhost/RectJsWithYii2/web/product/all", function (res) {
+        var base_url = $('#base_url').val();
+        this.serverRequest = $.get(base_url+"/product/all", function (res) {
             this.setState({
                 products: $.parseJSON(res),
             });

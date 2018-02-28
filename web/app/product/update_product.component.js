@@ -14,12 +14,13 @@ class UpdateProductComponent extends React.Component {
         this.onNameChange = this.onNameChange.bind(this);
         this.onPriceChange = this.onPriceChange.bind(this);
         this.onSave = this.onSave.bind(this);
+        
     }
 
     componentDidMount() {
-
+        var base_url = $('#base_url').val();
         var productId = this.props.productId;
-        this.serverRequest = $.get("http://localhost/RectJsWithYii2/web/product/view?id="+productId, 
+        this.serverRequest = $.get(base_url+"/product/view?id="+productId, 
         function (res) {
             res = $.parseJSON(res);
             this.setState({
@@ -42,17 +43,17 @@ class UpdateProductComponent extends React.Component {
     }
 
     onSave(e){
- 
+        var base_url = $('#base_url').val();
         var productId = this.props.productId;
         // data in the form
         var form_data={
             name: this.state.name,
             price: this.state.price,
         };
-     
+        
         // submit form data to api
         $.ajax({
-            url: "http://localhost/RectJsWithYii2/web/product/update?id="+productId,
+            url: base_url+"/product/update?id="+productId,
             type : "GET",
             contentType : 'application/json',
             data : form_data,

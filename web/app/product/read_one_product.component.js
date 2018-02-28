@@ -12,9 +12,9 @@ class ReadOneProductComponent extends React.Component {
     }
 
     componentDidMount() {
-
+        var base_url = $('#base_url').val();
         var productId = this.props.productId;
-        this.serverRequest = $.get("http://localhost/RectJsWithYii2/web/product/view?id="+productId, 
+        this.serverRequest = $.get(base_url+"/product/view?id="+productId, 
         function (res) {
             res = $.parseJSON(res);
             this.setState({

@@ -15,10 +15,10 @@ class DeleteProductComponent extends React.Component {
     
         // product to delete
         var productId = this.props.productId;
-    
+        var base_url = $('#base_url').val();
         // submit form data to api
         $.ajax({
-            url: "http://localhost/RectJsWithYii2/web/product/delete?id="+productId,
+            url: base_url+"/product/delete?id="+productId,
             type : "POST",
             contentType : 'application/json',
             data : {    },
